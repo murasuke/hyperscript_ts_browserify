@@ -8,21 +8,21 @@
     <script>
         window.onload = function() {
             var h = require('hyperscript');        
-            const root = document.getElementById("rootNode")
+            const root = document.getElementById("rootNode");
             
             root.appendChild(h("div"));
-            // // modele.export されたfunctionを呼び出し、DOMを生成する。
-            // const node = appModule.creatoSampleDom();
-            // root.appendChild(node);
+            // modele.export されたfunctionを呼び出し、DOMを生成する。
+            const node = appModule.creatoSampleDom();
+            root.appendChild(node);
 
-            // // moduleで公開したh()を呼び出す。
-            // // const h = require("hyperscript"); html側で呼び出せない。browserifyできないため。
-            // const h = appModule.h; //exportしたfunctionを変数に設定
-            // root.appendChild(
-            //     h("ul", {}, 
-            //         [h("li", "list1"),h("li", "list2"),h("li", "list3")]
-            //     )
-            // );
+            // moduleで公開したh()を呼び出す。
+            // const h = require("hyperscript"); html側で呼び出せない。browserifyできないため。
+            const h = appModule.h; //exportしたfunctionを変数に設定
+            root.appendChild(
+                h("ul", {}, 
+                    [h("li", "list1"),h("li", "list2"),h("li", "list3")]
+                )
+            );
        }
     </script>
 </head>
