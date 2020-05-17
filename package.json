@@ -1,0 +1,15 @@
+{
+  "name": "browserifyts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "niimura",
+  "license": "ISC",
+  "dependencies": {
+    "@types/hyperscript": "0.0.3",
+    "hyperscript": "^2.0.2"
+  }
+}
