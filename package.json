@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "browserify -r ./main.js:app > app.js",
+    "serve": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "niimura",
