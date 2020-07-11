@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "browserify -r ./main.js:app > app.js",
+    "build": "browserify -r ./dist/js/index.js:app > app.js",
     "serve": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,5 +13,10 @@
   "dependencies": {
     "@types/hyperscript": "0.0.3",
     "hyperscript": "^2.0.2"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "vinyl-source-stream": "^2.0.0"
   }
 }
