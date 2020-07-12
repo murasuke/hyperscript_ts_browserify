@@ -1,13 +1,8 @@
 import * as h from "hyperscript";
-export * as hyperscript from "hyperscript";
-
-// export class Hello {
-//     greeting (name :string){
-//       return "Hello"+name;
-//     }
-//  }
+export {h};  // re-export h. https://stackoverflow.com/questions/41892470/how-to-reexport-from-a-module-that-uses-export
 
 export function createSampleDom(){
   return h("div", {style:{color:"blue"}}, 
     h("span", {}, "春はあけぼの"));
 }
+

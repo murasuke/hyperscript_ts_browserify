@@ -2,9 +2,8 @@
   "name": "browserifyts",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "build": "browserify -r ./dist/js/index.js:app > app.js",
     "serve": "http-server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

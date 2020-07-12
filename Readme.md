@@ -1,24 +1,23 @@
 # hyperScript_browserify
 
-hyperScriptをbrowserifyでブラウザから利用するサンプル。
-
+hyperScriptをTypescriptで利用するサンプル。
+(gulp + browserifyでモジュールを読み込む)
 
 - やっていること
 
-    - ブラウザが読み込むjsファイルででhyperScriptをrequire()して利用する。
-    - hyperscriptのメソッド自体をexportし、ブラウザから利用する。
+    - hyperScriptをrequire()したjavascriptをブラウザで読み込む。
+    - hyperScriptを直接ブラウザから利用するため、エクスポートする。
+    - browserifyしたモジュールをブラウザで読み込むために「モジュール名の指定」を行う
 
 ブラウザが利用するjsファイル
 ~~~javascript
-var h = require('hyperscript');
+import * as h from "hyperscript";
+export {h};  // re-export h. https://stackoverflow.com/questions/41892470/how-to-reexport-from-a-module-that-uses-export
 
-module.exports = {
-    creatoSampleDom: ()=>{
-        return h("div", {style:{color:"blue"}}, h("span", {}, "春はあけぼの"));
-    },
-    h: h,
+export function createSampleDom(){
+  return h("div", {style:{color:"blue"}}, 
+    h("span", {}, "春はあけぼの"));
 }
-~~~
 
  - コンパイル時にrequireを公開するため「-r」をつける＋モジュール名をつける
 

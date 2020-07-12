@@ -11,25 +11,12 @@ gulp.task("compile:ts", ()=>{
         .pipe(gulp.dest("dist/js/"));
 });
 
-
-// gulp.task('browserify', () => {
-//     return browserify({
-//             entries: ['./dist/js/index.js'],
-//             expose: "app"
-//         })
-//         .bundle()
-//         .pipe(source('app.js'))
-//         .pipe(gulp.dest('./dist/js/'));
-// });
-
-
 gulp.task('browserify', () => {
     return browserify()
-        .require("./dist/js/index.js", {expose: "app"})
+        .require("./dist/js/main.js", {expose: "app"})
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('./dist/js/'));
 });
-
 
 gulp.task("build",gulp.series("compile:ts","browserify"));
