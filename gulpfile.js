@@ -11,6 +11,7 @@ gulp.task("compile:ts", ()=>{
         .pipe(gulp.dest("dist/js/"));
 });
 
+// browserifyでhyperscriptをバンドルする
 gulp.task('browserify', () => {
     return browserify()
         .require("./dist/js/main.js", {expose: "app"})
@@ -19,4 +20,5 @@ gulp.task('browserify', () => {
         .pipe(gulp.dest('./dist/js/'));
 });
 
+// コンパイル＋browserify
 gulp.task("build",gulp.series("compile:ts","browserify"));

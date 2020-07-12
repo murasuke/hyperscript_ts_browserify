@@ -18,6 +18,7 @@ export function createSampleDom(){
   return h("div", {style:{color:"blue"}}, 
     h("span", {}, "春はあけぼの"));
 }
+~~~
 
  - コンパイル時にrequireを公開するため「-r」をつける＋モジュール名をつける
 
@@ -51,9 +52,39 @@ export function createSampleDom(){
 
 ***
 ## ビルドと実行について
+
+gulpfile.js でTypeScriptのビルドと、browserifyを行う
+~~~javascript
+const gulp = require("gulp");
+const ts = require("gulp-typescript");
+const browserify = require("browserify");
+const source     = require('vinyl-source-stream');
+
+// src/tsをコンパイルしてdist/jsに
+gulp.task("compile:ts", ()=>{
+    return gulp.src(["src/ts/*.ts"])
+        .pipe(ts())
+        .js
+        .pipe(gulp.dest("dist/js/"));
+});
+
+// browserifyでhyperscriptをバンドルする
+gulp.task('browserify', () => {
+    return browserify()
+        .require("./dist/js/main.js", {expose: "app"})
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest('./dist/js/'));
+});
+
+// コンパイル＋browserify
+gulp.task("build",gulp.series("compile:ts","browserify"));
+~~~
+
+実行は「npx gulp build」
+
 package.jsonの"scripts"に、下記を追加。
 
-    "build": "browserify -r ./main.js:app > app.js",`
     "serve": "http-server",`
 
 http-serverが導入されていない場合はnpmで追加する。
