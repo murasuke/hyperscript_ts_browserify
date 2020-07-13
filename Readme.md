@@ -1,13 +1,35 @@
 # hyperscript_ts_browserify
 
 hyperscriptをTypescriptで利用するサンプル。
-(gulp + browserifyでモジュールを読み込む)
+(gulpでコンパイル + browserifyでhyperscriptをバンドル)
 
-- やっていること
+##  サンプルの内容
+- TypeScriptでhyperscriptを利用してDOMを返す
+    - require()でhyperscriptを読み込み利用する。(コンパイルは成功するが、ブラウザで利用するにはモジュールのバンドルが必要)
+- TypeScriptで「hyperscript(h())」をエクスポートして、ブラウザ側で利用可能にする
+- JavaScriptでモジュールを読み込む
+    - require()でモジュールを読み込むため、browserifyで「モジュール名を指定」する
 
-    - TypeScriptでhyperscriptを利用してDOMを返す
-    - TypeScriptで「hyperscript(h())」をエクスポートして、ブラウザ側で利用可能にする(要browserify)
-    - JavaScriptでモジュールを読み込む(require())ため「モジュール名を指定」してbrowserifyする
+## 初期設定
+- npm install --save hyperscript
+- npm install --save @types/hyperscript
+
+tsconfig.json
+~~~json
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es5",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "module": "commonjs",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+
+    /* Strict Type-Checking Options */
+    "strict": true,                           /* Enable all strict type-checking options. */
+
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
+  }
+}
+~~~
 
 main.ts  (hyperscriptの利用とエクスポート)
 ~~~javascript
