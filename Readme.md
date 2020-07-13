@@ -1,18 +1,18 @@
-# hyperScript_browserify
+# hyperscript_ts_browserify
 
-hyperScriptをTypescriptで利用するサンプル。
+hyperscriptをTypescriptで利用するサンプル。
 (gulp + browserifyでモジュールを読み込む)
 
 - やっていること
 
-    - hyperScriptをrequire()したjavascriptをブラウザで読み込む。
-    - hyperScriptを直接ブラウザから利用するため、エクスポートする。
-    - browserifyしたモジュールをブラウザで読み込むために「モジュール名の指定」を行う
+    - TypeScriptでhyperscriptを利用してDOMを返す
+    - TypeScriptで「hyperscript(h())」をエクスポートして、ブラウザ側で利用可能にする(要browserify)
+    - JavaScriptでモジュールを読み込む(require())ため「モジュール名を指定」してbrowserifyする
 
-ブラウザが利用するjsファイル
+main.ts  (hyperscriptの利用とエクスポート)
 ~~~javascript
 import * as h from "hyperscript";
-export {h};  // re-export h. https://stackoverflow.com/questions/41892470/how-to-reexport-from-a-module-that-uses-export
+export {h};  // 再エクスポート https://stackoverflow.com/questions/41892470/how-to-reexport-from-a-module-that-uses-export
 
 export function createSampleDom(){
   return h("div", {style:{color:"blue"}}, 
@@ -20,40 +20,13 @@ export function createSampleDom(){
 }
 ~~~
 
- - コンパイル時にrequireを公開するため「-r」をつける＋モジュール名をつける
+## ビルドについて
 
-    `browserify -r ./main.js:app > app.js`
-    - :app がモジュール名指定　(require('app')でロードできる)
+gulpfile.js でTypeScriptのビルドと、browserifyを行う。
 
-- ブラウザ側で公開したメソッドを読み込み、実行してDOMに追加する。
+    npx gulp build
 
-~~~html
-    <script src=./app.js></script> 
-    <script>
-        window.onload = function() {
-            var appModule = require('app');        
-            const root = document.getElementById("rootNode")
-            
-            // modele.export されたfunctionを呼び出し、DOMを生成する。
-            const node = appModule.creatoSampleDom();
-            root.appendChild(node);
-
-            // moduleで公開したh()を呼び出す。
-            // const h = require("hyperscript"); html側で呼び出せない。browserifyできないため。
-            const h = appModule.h; //exportしたfunctionを変数に設定
-            root.appendChild(
-                h("ul", {}, 
-                    [h("li", "list1"),h("li", "list2"),h("li", "list3")]
-                )
-            );
-       }
-
-~~~
-
-***
-## ビルドと実行について
-
-gulpfile.js でTypeScriptのビルドと、browserifyを行う
+gulpfile.ts
 ~~~javascript
 const gulp = require("gulp");
 const ts = require("gulp-typescript");
@@ -69,6 +42,7 @@ gulp.task("compile:ts", ()=>{
 });
 
 // browserifyでhyperscriptをバンドルする
+// {expose: "app"}でモジュール名を指定する(require('app');でモジュールを読み込めるようになる)
 gulp.task('browserify', () => {
     return browserify()
         .require("./dist/js/main.js", {expose: "app"})
@@ -79,18 +53,49 @@ gulp.task('browserify', () => {
 
 // コンパイル＋browserify
 gulp.task("build",gulp.series("compile:ts","browserify"));
+
 ~~~
 
-実行は「npx gulp build」
+## htmlでモジュールを読み込んで利用する
+~~~html
+    <script src=./dist/js/app.js></script> 
+    <script>
+        window.onload = function() {
+            // appモジュールを読み込む
+            var appModule = require('app');       
+            const root = document.getElementById("rootNode");
+            
+            // exportされたfunctionを呼び出し、DOMを生成する。
+            const node = appModule.createSampleDom();
+            root.appendChild(node);
 
-package.jsonの"scripts"に、下記を追加。
+            // moduleで公開したh()を呼び出す。
+            const h = appModule.h; //exportしたh(hyperScript)を利用する
+            root.appendChild(
+                h("ul", {}, 
+                    [h("li", "list1"),h("li", "list2"),h("li", "list3")]
+                )
+            );
+       }
+    </script>
+~~~
+
+***
+
+## 実行について
+
+package.jsonの"scripts"に下記を追加。
 
     "serve": "http-server",`
 
 http-serverが導入されていない場合はnpmで追加する。
 
+下記で開発用httpサーバーを起動 (http://127.0.0.1:8080)
+
+    npx run serve
+
 ## メモ(VSCodeでGitリモートリポジトリ追加)
--  git remote add origin https://github.com/murasuke/hyperScript_browserify.git
+-  git remote add origin https://github.com/murasuke/hyperscript_ts_browserify.git
 -  git push -u origin master
 
 

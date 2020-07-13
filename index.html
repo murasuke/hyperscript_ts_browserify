@@ -7,10 +7,11 @@
     <script src=./dist/js/app.js></script> 
     <script>
         window.onload = function() {
+            // appモジュールを読み込む
             var appModule = require('app');       
             const root = document.getElementById("rootNode");
             
-            // modele.export されたfunctionを呼び出し、DOMを生成する。
+            // exportされたfunctionを呼び出し、DOMを生成する。
             const node = appModule.createSampleDom();
             root.appendChild(node);
 

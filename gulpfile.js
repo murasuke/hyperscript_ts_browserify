@@ -12,6 +12,7 @@ gulp.task("compile:ts", ()=>{
 });
 
 // browserifyでhyperscriptをバンドルする
+// {expose: "app"}でモジュール名を指定する(require('app');でモジュールを読み込めるようになる)
 gulp.task('browserify', () => {
     return browserify()
         .require("./dist/js/main.js", {expose: "app"})
