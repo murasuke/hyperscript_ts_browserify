@@ -3,21 +3,20 @@
 
 <head>
     <meta charset="utf-8">
-    <title>sample</title>
-    <script src=./index.js></script> 
+    <title>hyperscriptをブラウザで利用するサンプル</title>
+    <script src=./dist/js/app.js></script> 
     <script>
         window.onload = function() {
-            var h = require('hyperscript');        
+            // appモジュールを読み込む
+            var appModule = require('app');       
             const root = document.getElementById("rootNode");
             
-            root.appendChild(h("div"));
-            // modele.export されたfunctionを呼び出し、DOMを生成する。
-            const node = appModule.creatoSampleDom();
+            // exportされたfunctionを呼び出し、DOMを生成する。
+            const node = appModule.createSampleDom();
             root.appendChild(node);
 
             // moduleで公開したh()を呼び出す。
-            // const h = require("hyperscript"); html側で呼び出せない。browserifyできないため。
-            const h = appModule.h; //exportしたfunctionを変数に設定
+            const h = appModule.h; //exportしたh(hyperScript)を利用する
             root.appendChild(
                 h("ul", {}, 
                     [h("li", "list1"),h("li", "list2"),h("li", "list3")]
